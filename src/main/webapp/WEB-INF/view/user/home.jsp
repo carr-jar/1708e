@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="/bootstrap-4.4.1-dist/css/bootstrap-grid.css" rel="stylesheet">
+<script type="text/javascript" src="/bootstrap-4.4.1-dist/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
 </head>
 <body>

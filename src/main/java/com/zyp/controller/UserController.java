@@ -11,7 +11,7 @@ import com.zyp.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService service;
-	@RequestMapping("home")
+	@RequestMapping("home.do")
 	public String home() {
 		return "user/home";
 	}
