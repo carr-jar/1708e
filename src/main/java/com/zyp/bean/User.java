@@ -31,13 +31,13 @@ public class User implements Serializable{
 	private Date updateTime;
 	private String url;// 头像的位置
 	private String score;// 积分
-	private String role; // 角色
+	private int role; // 角色
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public User(Integer id,String username,String password,String nickname, Date birthday, Gender gender, int locked, Date createTime, Date updateTime, String url,
-String score, String role) {
+String score, int role) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -119,10 +119,10 @@ String score, String role) {
 	public void setScore(String score) {
 		this.score = score;
 	}
-	public String getRole() {
+	public int getRole() {
 		return role;
 	}
-	public void setRole(String role) {
+	public void setRole(int role) {
 		this.role = role;
 	}
 	public static long getSerialversionuid() {

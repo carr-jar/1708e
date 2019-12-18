@@ -64,7 +64,7 @@ public class UserController {
 		m.addAttribute("user", user);
 		request.getSession().setAttribute(CmsContant.USER_KEY, loginuser);
 		if(loginuser.getRole()==CmsContant.USER_ROLE_ADMIN) {
-			return "redirect:user/admin";
+			return "redirect:/admin/index.do";
 		}
 		return "redirect:home.do";
 	}

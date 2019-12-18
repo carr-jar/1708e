@@ -66,7 +66,7 @@
 			editor = K.create('#contentId', {
 			cssPath : '/kindeditor/plugins/code/prettify.css',
 			//uploadJson : '/resource/kindeditor/jsp/upload_json.jsp',
-			uploadJson:'/file/upload', // 
+			uploadJson:'/file/uploads.do', // 
 			fileManagerJson:'/file/manager',
 			//fileManagerJson : '/resource/kindeditor/jsp/file_manager_json.jsp',
 			allowFileManager : true,
