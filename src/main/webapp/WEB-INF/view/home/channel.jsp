@@ -9,13 +9,6 @@
 <link href="/bootstrap-4.4.1-dist/css/bootstrap.min.css" rel="stylesheet">
 <script type="text/javascript" src="/bootstrap-4.4.1-dist/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
-<style type="text/css">
-.ex {
-		overflow: hidden;
-		text-overflow:ellipsis;
-		white-space: nowrap;
-	}
-</style>
 </head>
 <body>
 <!-- 导航条 -->
@@ -70,9 +63,9 @@
   <div class="col-1">
     	<div class="row">
 		    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-		    	<a href="/home/index" class="nav-link active" style="margin-top:100px;margin-left:50px" id="v-pills-home-tab"  role="tab" aria-controls="v-pills-home" aria-selected="true">推荐</a>
+		    	<a href="/home/index" class="nav-link ${channelId==0?'active':'' }" style="margin-top:100px;margin-left:50px" id="v-pills-home-tab"  role="tab" aria-controls="v-pills-home" aria-selected="true">推荐</a>
 		    	<c:forEach items="${channels }" var="c" varStatus="index">
-		     	 	<a href="/home/channel?channelId=${c.id}" class="nav-link" style="margin-top:10px;margin-left:50px" id="v-pills-home-tab"  href="/home/channel?channelId=${c.id}" role="tab" aria-controls="v-pills-home" aria-selected="false">${c.name }</a>
+		     	 	<a href="/home/channel?channelId=${c.id}" class="nav-link ${channelId==c.id?'active':'' }" style="margin-top:10px;margin-left:50px" id="v-pills-home-tab"  href="/home/channel?channelId=${c.id}" role="tab" aria-controls="v-pills-home" aria-selected="false">${c.name }</a>
 		      	</c:forEach>
 		    </div>
 		</div>
@@ -80,38 +73,23 @@
   <div class="col-11">
     	<div class="row">
     		<div class="col-6">
-				<!-- 轮播图 -->
-				<div>
-					<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-						  <ol class="carousel-indicators">
-						  <c:forEach items="${slides }" var="s" varStatus="index">
-						    	<li data-target="#carouselExampleCaptions" data-slide-to="${s.id }" class="${index.index==0?'active':'' }"></li>
-						  </c:forEach>
-						  </ol>
-						  <div class="carousel-inner">
-						  	<c:forEach items="${slides }" var="s" varStatus="index">
-							    <div class="carousel-item ${index.index==0?'active':'' }">
-							      <img src="/pic/${s.picture }" class="d-block w-100" alt="..." width="40%" height="40%">
-							      <div class="carousel-caption d-none d-md-block">
-							        <h5>${s.title }</h5>
-							        <p>${s.title }</p>
-							      </div>
-							    </div>
-						    </c:forEach>
-						  </div>
-						  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-						    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						    <span class="sr-only">Previous</span>
-						  </a>
-						  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-						    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-						    <span class="sr-only">Next</span>
-						  </a>
-					</div>
-				</div>
+				
 				<!-- 文章列表 -->	
-    			<div id="work">
-    				<c:forEach items="${hotlist}" var="article">
+    			<div>
+				<ul class="nav nav-pills">
+				 	  <li class="nav-item">
+						    <a class="nav-link ${catId==0?'active':''}" href="/home/channel?channelId=${channelId}" >全部</a>
+				       </li>
+					  <c:forEach items="${categoris}" var="cat" >
+						  <li class="nav-item">
+						    <a class="nav-link ${catId==cat.id?'active':''}"  href="/home/channel?channelId=${channelId}&catId=${cat.id}">${cat.name}</a>
+						  </li>
+					  </c:forEach>
+					  
+					</ul>
+				</div>
+				<div style="margin-top:20px">
+				<c:forEach items="${channelList}" var="article">
 					<div class="row" style="margin-top:5px">
 						<div class="col-md-3">
 							<img src="/pic/${article.picture}"
@@ -130,32 +108,33 @@
 				</c:forEach>
     			</div>
     			<!-- 分页开始 -->
-					<div class="row justify-content-center" style="margin-top:20px">
-						<nav aria-label="Page navigation example" >
-							  <ul class="pagination ">
-							  
-							    <li class="page-item">
-							      <a class="page-link" href="/home/index?pageNum=${p.pageNum-1}&channelId=${channelId }&catId=${catId }" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    
-							    <c:forEach begin="1" end="${p.pages}" varStatus="index">
-							    	<li class="page-item"><a class="page-link" href="/home/index?pageNum=${index.index}&channelId=${channelId }&catId=${catId }"> ${index.index}</a></li>
-							    </c:forEach>
-							    
-							    <li class="page-item">
-							      <a class="page-link" href="/home/index?pageNum=${p.pageNum+1}&channelId=${channelId }&catId=${catId }" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							    
-							  </ul>
-							</nav>
-					</div>
+			<div class="row justify-content-center" style="margin-top:20px">
+				<nav aria-label="Page navigation example" >
+					  <ul class="pagination ">
+					  
+					    <li class="page-item">
+					      <a class="page-link" href="/home/channel?pageNum=${p.pageNum-1}&channelId=${channelId }&catId=${catId }" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+					    
+					    <c:forEach begin="1" end="${p.pages}" varStatus="index">
+					    	<li class="page-item"><a class="page-link" href="/home/channel?pageNum=${index.index}&channelId=${channelId }&catId=${catId }"> ${index.index}</a></li>
+					    </c:forEach>
+					    
+					    <li class="page-item">
+					      <a class="page-link" href="/home/channel?pageNum=${p.pageNum+1}&channelId=${channelId }&catId=${catId }" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					    
+					  </ul>
+					</nav>
+			</div>
+    			
     		</div>
     		<div class="col-4">
-    			<div class="card">
+    				<div class="card">
 					  <div class="card-header">
 					    最新文章
 					  </div>
@@ -164,9 +143,9 @@
 					     	<c:forEach items="${lastlist}" var="last" varStatus="index">
 					     		<li class="ex"> ${index.index+1}. <a href="/home/detail?id=${last.id}" target="_blank" >${last.title}</a></li>
 					     	</c:forEach>
-					     	
 					     </ul>
-					     <div class="row" style="margin-left:50px">
+					     <!-- 分页开始 -->
+							<div class="row" style="margin-left:50px">
 								<nav aria-label="Page navigation example" >
 										  <ul class="pagination ">
 										  
@@ -208,27 +187,24 @@
 					     </ul>
 					  </div>
 				</div>		
+    		</div>	
     		</div>
-    	</div>
-  </div>
+  		</div>
 </div>
-<nav class="nav justify-content-center" style="height:50px; background:	#C0C0C0">
-	   <div id="bottom">
+<nav class="nav justify-content-center" style="background:#C0C0C0" height="50px"> 
+	     <div id="bottom">
 	   		
 	   </div>
 </nav>
 </body>
 <script type="text/javascript">
-$(function(){
-	$.post("/link/lList",function(arr){
-		for(var i in arr){
-			$("#bottom").append("<a style='line-height:50px; font-size:25px; margin-right:50px;' target='_blank' href="+arr[i].url+">"+arr[i].name+"</a>");
-		}
-	},"json")
-})
+$.post("/link/lList",function(arr){
+	for(var i in arr){
+		$("#bottom").append("<a style='line-height:50px; font-size:25px; margin-right:50px;' target='_blank' href="+arr[i].url+">"+arr[i].name+"</a>");
+	}
+},"json")
 function gopage(page){
-	location="/home/index?lastpage="+page+"&pageNum="+${pageNum};
+	location="/home/channel?lastpage="+page+"&channelId="+${channelId}+"&catId="+${catId}+"&pageNum="+${pageNum};
 }
-
 </script>
 </html>

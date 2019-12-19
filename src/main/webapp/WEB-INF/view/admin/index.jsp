@@ -46,10 +46,10 @@
     <div>
     	<ul class="nav">
 		    <li class="nav-item nav-link"><img  src="/img/279885.jpg" width="30px" height="30px"></li>
-		    <li class="nav-item nav-link">Window</li>
+		    <li class="nav-item nav-link">${user.username }</li>
 		    <li class="nav-item nav-link">图像的</li>
 		    <li class="nav-item nav-link">支持</li>
-		    <li class="nav-item nav-link">更新</li>
+		    <li class="nav-item nav-link"><a style="color:red" href="/user/tologin.do">退出登录</a></li>
 		</ul>
     </div>
   </div>

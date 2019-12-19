@@ -98,7 +98,7 @@
 			$.post("/article/del.do",{"id":id},function(i){
 				if(i){
 					alert("删除成功");
-					$("#work").load("/article/list");
+					refreshPage();
 				}else{
 					alert("删除失败")
 				}

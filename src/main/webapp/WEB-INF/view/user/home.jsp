@@ -19,7 +19,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="/home/index">首页</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -54,10 +54,10 @@
     <div>
     	<ul class="nav">
 		    <li class="nav-item nav-link"><img  src="/img/279885.jpg" width="30px" height="30px"></li>
-		    <li class="nav-item nav-link">Window</li>
+		    <li class="nav-item nav-link">${user.username }</li>
 		    <li class="nav-item nav-link">图像的</li>
 		    <li class="nav-item nav-link">支持</li>
-		    <li class="nav-item nav-link">更新</li>
+		   <li class="nav-item nav-link"><a style="color:red" href="/user/tologin.do">退出登录</a></li>
 		</ul>
     </div>
   </div>
@@ -79,6 +79,7 @@
 <nav class="nav fixed-bottom justify-content-center" style="background:#C0C0C0" height="50px"> 
 	      哈哈哈
 </nav>
+</body>
 <script type="text/javascript">
 	KindEditor.ready(function(K) {
 		window.editor1 = K.create();
@@ -88,7 +89,5 @@
 	function showWork(url) {
 		$("#work").load(url);
 	}
-</script>	
-	
-</body>
+</script>
 </html>

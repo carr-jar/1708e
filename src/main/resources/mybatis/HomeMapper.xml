@@ -10,6 +10,9 @@
 		<association property="category" select="findCatigory"  column="category_id" javaType="com.zyp.bean.Category">
 		
 		</association>
+		<association property="user" select="findUser"  column="user_id" javaType="com.zyp.bean.User">
+		
+		</association>
 	</resultMap>
 	
 	<select id="list" resultMap="aa">
@@ -29,4 +32,30 @@
 	<select id="findCatigory" resultType="com.zyp.bean.Category">
 		SELECT id,name FROM cms_category WHERE id=#{id}
 	</select>
+	
+	<!-- 获取用户 -->
+	<select id="findUser" resultType="com.zyp.bean.User">
+		SELECT id,username FROM cms_user WHERE id=#{id}
+	</select>
+	
+	<select id="hostList" resultMap="aa">
+		SELECT * FROM cms_article WHERE hot=1
+	</select>
+	
+	<select id="getArticles" resultMap="aa">
+		select * from cms_article where channel_id=#{channelId} and category_id=#{catId}
+	</select>
+	
+	<select id="getArt" resultMap="aa">
+		select * from cms_article where channel_id=#{channelId}
+	</select>
+	
+	<select id="getCategoriesByChannelId" resultType="com.zyp.bean.Category">
+		select * from cms_category where channel_id=#{channelId}
+	</select>
+	
+	<select id="detail" resultMap="aa">
+		select * from cms_article where id=#{id}
+	</select>
+	
 </mapper>

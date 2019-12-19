@@ -62,10 +62,13 @@ public class UserController {
 			return "user/login";
 		}
 		m.addAttribute("user", user);
+		
 		request.getSession().setAttribute(CmsContant.USER_KEY, loginuser);
-		if(loginuser.getRole()==CmsContant.USER_ROLE_ADMIN) {
-			return "redirect:/admin/index.do";
-		}
-		return "redirect:home.do";
+		request.getSession().setAttribute("userRole", loginuser.getRole());
+		request.getSession().setAttribute("adminrole", CmsContant.USER_ROLE_ADMIN);
+//		if(loginuser.getRole()==CmsContant.USER_ROLE_ADMIN) {
+//			return "redirect:/home/index";
+//		}
+		return "redirect:/home/index";
 	}
 }
