@@ -81,7 +81,8 @@
 						/* $("#commentText").val(""); */
 						history.go(0);
 					}else{
-						alert(msg.error)
+						alert(msg.error);
+						location="/user/tologin.do";
 					}
 					
 				},

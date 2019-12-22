@@ -15,6 +15,8 @@ import com.zyp.bean.Article;
 import com.zyp.bean.Category;
 import com.zyp.bean.Channel;
 import com.zyp.bean.Slide;
+import com.zyp.bean.User;
+import com.zyp.common.CmsContant;
 import com.zyp.service.HomeService;
 
 @Controller
@@ -23,7 +25,9 @@ public class HomeController {
 	@Autowired
 	private HomeService service;
 	@RequestMapping("index")
-	public String index(Model m,@RequestParam(defaultValue="1")  int pageNum,
+	public String index(Model m,
+								HttpServletRequest request,
+								@RequestParam(defaultValue="1")  int pageNum,
 								@RequestParam(defaultValue="1")  int lastpage
 			) throws InterruptedException {
 		Thread  t1 =  new Thread() {
@@ -58,12 +62,17 @@ public class HomeController {
 		
 		Thread  t4 =  new Thread() {
 			public void run() {
-		// 轮播图
-		List<Slide> slides = service.getSlide();
-		m.addAttribute("slides", slides);
-		
+				// 轮播图
+				List<Slide> slides = service.getSlide();
+				m.addAttribute("slides", slides);
 			};
 		};
+		User user = (User) request.getSession().getAttribute(CmsContant.USER_KEY);
+		if(user==null) {
+			m.addAttribute("islogin", "登录");
+		}else {
+			m.addAttribute("islogin", "退出登录");
+		}
 		//参数回传
 		m.addAttribute("pageNum", pageNum);
 		

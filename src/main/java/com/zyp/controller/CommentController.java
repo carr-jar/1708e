@@ -31,7 +31,9 @@ public class CommentController {
 		List<Comment> clist = service.getComments(id);
 		PageInfo<Comment> pageInfo = new PageInfo<Comment>(clist);
 		User loginUser  = (User)request.getSession().getAttribute(CmsContant.USER_KEY);
-		request.getSession().setAttribute("userUrl", loginUser.getUrl());
+		if(loginUser!=null) {
+			request.getSession().setAttribute("userUrl", loginUser.getUrl());
+		}
 		m.addAttribute("clist", clist);
 		m.addAttribute("p", pageInfo);
 		return "home/comments";

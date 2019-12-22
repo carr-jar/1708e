@@ -58,7 +58,7 @@
 		    <li class="nav-item nav-link">Window</li>
 		    <li class="nav-item nav-link">图像的</li>
 		    <li class="nav-item nav-link">支持</li>
-		    <li class="nav-item nav-link"><a style="color:red" href="/user/tologin.do">退出登录</a></li>
+		    <li class="nav-item nav-link"><a style="color:red" href="/user/tologin.do">${islogin}</a></li>
 		</ul>
     </div>
   </div>
@@ -130,29 +130,26 @@
 				</c:forEach>
     			</div>
     			<!-- 分页开始 -->
-					<div class="row justify-content-center" style="margin-top:20px">
-						<nav aria-label="Page navigation example" >
-							  <ul class="pagination ">
-							  
-							    <li class="page-item">
-							      <a class="page-link" href="/home/index?pageNum=${p.pageNum-1}&channelId=${channelId }&catId=${catId }" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    
-							    <c:forEach begin="1" end="${p.pages}" varStatus="index">
-							    	<li class="page-item"><a class="page-link" href="/home/index?pageNum=${index.index}&channelId=${channelId }&catId=${catId }"> ${index.index}</a></li>
-							    </c:forEach>
-							    
-							    <li class="page-item">
-							      <a class="page-link" href="/home/index?pageNum=${p.pageNum+1}&channelId=${channelId }&catId=${catId }" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							    
-							  </ul>
-							</nav>
+					
+					
+					<div style="margin-left:200px">			
+						<div class="row" style="text-align: center;padding-top:1px;" >
+							<ul class="pagination" >
+								    <li><a href="/home/index?pageNum=${p.prePage}&channelId=${channelId }&catId=${catId }">&laquo;</a></li>
+								    <c:forEach begin="${p.pageNum-2 > 1 ? p.pageNum-2:1}" end="${p.pageNum+2 > p.pages ? p.pages:p.pageNum+2}" varStatus="index">    		
+								    	<c:if test="${p.pageNum!=index.index}">
+								    		<li><a href="/home/index?pageNum=${index.index}&channelId=${channelId }&catId=${catId }">${index.index}</a></li>
+								    	</c:if>
+								    	<c:if test="${p.pageNum==index.index}">
+								    		<li><a href="/home/index?pageNum=${index.index}&channelId=${channelId }&catId=${catId }"><strong> ${index.index} </strong> </a></li>
+								    	</c:if>
+								    	
+								    </c:forEach>
+								    <li><a href="/home/index?pageNum=${p.nextPage}&channelId=${channelId }&catId=${catId }">&raquo;</a></li>
+								</ul>
+						</div>
 					</div>
+					
     		</div>
     		<div class="col-4">
     			<div class="card">
