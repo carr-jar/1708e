@@ -19,7 +19,7 @@ public interface HomeMapper {
 	
 	List<Article> hostList();
 
-	@Select("SELECT * FROM cms_article ORDER BY created DESC")
+	@Select("SELECT * FROM cms_article WHERE deleted=0 ORDER BY created DESC")
 	List<Article> lastList();
 
 	

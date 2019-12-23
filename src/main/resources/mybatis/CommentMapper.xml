@@ -2,6 +2,43 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zyp.bean.CommentMapper">
-
+<mapper namespace="com.zyp.mapper.CommentMapper">
+	<resultMap type="com.zyp.bean.Article" id="aa">
+		<association property="channel" select="findChannel" column="channel_id" javaType="com.zyp.bean.Channel">
+		
+		</association>
+		<association property="category" select="findCatigory"  column="category_id" javaType="com.zyp.bean.Category">
+		
+		</association>
+	</resultMap>
+	<!-- 获取频道 -->
+	<select id="findChannel" resultType="com.zyp.bean.Channel">
+		SELECT id,name FROM cms_channel WHERE id=#{id}
+	</select>
+	
+	<!-- 获取分类 -->
+	<select id="findCatigory" resultType="com.zyp.bean.Category">
+		SELECT id,name FROM cms_category WHERE id=#{id}
+	</select>
+	
+	<select id="getById" resultMap="aa">
+		SELECT * FROM cms_article WHERE id=#{value} AND deleted=0
+	</select>
+	
+	<resultMap type="com.zyp.bean.Complain" id="ComplainMapper">
+		<result column="article_id" property="articleId"/>
+		<result column="complain_type" property="complainType"/>
+		<result column="src_url" property="srcUrl"/>
+		<result column="compain_option" property="compainOption"/>
+		<result column="user_id" property="userId"/>
+		<association  property="user" javaType="com.zyp.bean.User" column="user_id" select="findUserById" />
+	</resultMap>
+	
+	<select id="findUserById" resultType="com.zyp.bean.User">
+		SELECT id,username FROM cms_user WHERE id=#{value}
+	</select>
+	
+	<select id="getComplains" resultMap="ComplainMapper">
+		SELECT * FROM cms_complain where article_id=#{value}
+	</select>
 </mapper>

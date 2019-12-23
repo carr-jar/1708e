@@ -1,20 +1,28 @@
 package com.zyp.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zyp.bean.Article;
 import com.zyp.bean.Comment;
+import com.zyp.bean.Complain;
 import com.zyp.bean.User;
+import com.zyp.cms.utils.StringUtils;
 import com.zyp.common.CmsContant;
 import com.zyp.common.CmsError;
 import com.zyp.common.CmsMessage;
@@ -22,7 +30,7 @@ import com.zyp.service.CommentService;
 
 @Controller
 @RequestMapping("comment")
-public class CommentController {
+public class CommentController extends BaseController{
 	@Autowired
 	private CommentService service;
 	@RequestMapping("comments")
@@ -60,4 +68,56 @@ public class CommentController {
 		return new CmsMessage(CmsError.FAILED_UPDATE_DB, "异常原因失败，请与管理员联系", null);
 	}
 	
+	@RequestMapping("tocomplain")
+	public String complain(Model m,int articleId) {
+		Article article= service.getById(articleId);
+		m.addAttribute("article", article);
+		m.addAttribute("complain", new Complain());
+		return "home/complain";
+				
+	}
+	
+	@RequestMapping("complain")
+	public String complain(HttpServletRequest request,
+			@ModelAttribute("complain") @Valid Complain complain,
+			MultipartFile file,
+			BindingResult result) throws IllegalStateException, IOException {
+		
+		if(!StringUtils.isHttpUrl(complain.getSrcUrl())) {
+			result.rejectValue("srcUrl", "", "不是合法的url地址");
+		}
+		if(result.hasErrors()) {
+			Article article= service.getById(complain.getArticleId());
+			request.setAttribute("article", article);
+			return "home/complain";
+		}
+		
+		User loginUser  =  (User)request.getSession().getAttribute(CmsContant.USER_KEY);
+		
+		String picUrl = this.processFile(file);
+		complain.setPicture(picUrl);
+		
+		
+		//加上投诉人
+		if(loginUser!=null)
+			complain.setUserId(loginUser.getId());
+		else
+			complain.setUserId(0);
+		
+		int i =service.addComplain(complain);
+		
+		return "redirect:/home/detail?id="+complain.getArticleId();
+				
+	}
+	
+	@RequestMapping("complains")
+	public String 	complains(HttpServletRequest request,int articleId,
+			@RequestParam(defaultValue="1") int pageNum) {
+		PageHelper.startPage(pageNum, 2);
+		List<Complain> complainList=   service.getComplains(articleId);
+		PageInfo<Complain> pageInfo = new PageInfo<Complain>(complainList);
+		request.setAttribute("complainList", complainList);
+		request.setAttribute("p", pageInfo);
+		return "admin/article/complainslist";
+	}
 }

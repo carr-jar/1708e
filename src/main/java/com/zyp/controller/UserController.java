@@ -1,6 +1,8 @@
 package com.zyp.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +28,14 @@ public class UserController {
 		return "user/home";
 	}
 	@RequestMapping("toregist.do")
-	public String regist(Model m) {
+	public String toregist(Model m) {
 		User user = new User();
 		m.addAttribute("user", user);
 		return "user/regist";
 	}
 	@RequestMapping("regist.do")
 	public String regist(@Valid @ModelAttribute("user")User user,BindingResult result) {
+		System.out.println(user);
 		if(result.hasErrors()) {
 			return "user/regist";
 		}
@@ -55,8 +58,20 @@ public class UserController {
 		return "user/login";
 	}
 	@RequestMapping("login.do")
-	public String login(User user,Model m,HttpServletRequest request) {
+	public String login(User user,Model m,HttpServletRequest request,HttpServletResponse response) {
+		
+		String pwd =  new String(user.getPassword());
+		//保存用户的用户名和密码
+		Cookie cookieUserName = new Cookie("username", user.getUsername());
+		cookieUserName.setPath("/");
+		cookieUserName.setMaxAge(10*24*3600);
+		response.addCookie(cookieUserName);
+		Cookie cookieUserPwd = new Cookie("userpwd", pwd);
+		cookieUserPwd.setPath("/");
+		cookieUserPwd.setMaxAge(10*24*3600);
+		response.addCookie(cookieUserPwd);
 		User loginuser=service.login(user);
+		
 		if(loginuser==null) {
 			m.addAttribute("error", "用户名或密码错误");
 			return "user/login";
@@ -66,9 +81,21 @@ public class UserController {
 		request.getSession().setAttribute(CmsContant.USER_KEY, loginuser);
 		request.getSession().setAttribute("userRole", loginuser.getRole());
 		request.getSession().setAttribute("adminrole", CmsContant.USER_ROLE_ADMIN);
-//		if(loginuser.getRole()==CmsContant.USER_ROLE_ADMIN) {
-//			return "redirect:/home/index";
-//		}
+		
+		
+		return "redirect:/home/index";
+	}
+	@RequestMapping("loginout")
+	public String loginout(HttpServletRequest request,HttpServletResponse response) {
+		request.getSession().removeAttribute(CmsContant.USER_KEY);
+		Cookie cookieUserName = new Cookie("username", "");
+		cookieUserName.setPath("/");
+		cookieUserName.setMaxAge(0);
+		response.addCookie(cookieUserName);
+		Cookie cookieUserPwd = new Cookie("userpwd", "");
+		cookieUserPwd.setPath("/");
+		cookieUserPwd.setMaxAge(0);
+		response.addCookie(cookieUserPwd);
 		return "redirect:/home/index";
 	}
 }

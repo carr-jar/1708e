@@ -32,6 +32,7 @@ public class AdminController {
 		PageInfo<Article> pageInfo = new PageInfo<Article>(list);
 		m.addAttribute("list", list);
 		m.addAttribute("p", pageInfo);
+		m.addAttribute("status", status);
 		return "/admin/article/list";
 	}
 	@ResponseBody

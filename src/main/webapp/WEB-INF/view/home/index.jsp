@@ -58,7 +58,7 @@
 		    <li class="nav-item nav-link">Window</li>
 		    <li class="nav-item nav-link">图像的</li>
 		    <li class="nav-item nav-link">支持</li>
-		    <li class="nav-item nav-link"><a style="color:red" href="/user/tologin.do">${islogin}</a></li>
+		    <li class="nav-item nav-link"><a style="color:red" href="${url }">${islogin}</a></li>
 		</ul>
     </div>
   </div>

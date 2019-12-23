@@ -22,6 +22,7 @@ public class Article {
 	private Channel channel      ;//栏目 频道
 	private Category  category     ; //分类
 	private User user ;
+	private int complainCnt;// 投诉的数量
 	public Article() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -48,6 +49,13 @@ public class Article {
 		this.channel = channel;
 		this.category = category;
 		this.user = user;
+	}
+	
+	public int getComplainCnt() {
+		return complainCnt;
+	}
+	public void setComplainCnt(int complainCnt) {
+		this.complainCnt = complainCnt;
 	}
 	public Integer getId() {
 		return id;

@@ -15,12 +15,11 @@
 		</association>
 	</resultMap>
 	<select id="list" resultMap="aa">
-		SELECT id,title,channel_id,category_id ,user_id, created,status,hot
+		SELECT id,title,channel_id,category_id ,user_id, created,status,hot,complainCnt
 		  FROM cms_article
 		  WHERE 
-		 <!--  status = #{value} AND  -->
-		  deleted=0
-		  ORDER BY status ASC,id DESC
+		  deleted=0 and status=#{status} 
+		  ORDER BY id DESC
 	</select>
 	
 	<!-- 获取用户 -->

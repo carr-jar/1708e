@@ -70,8 +70,10 @@ public class HomeController {
 		User user = (User) request.getSession().getAttribute(CmsContant.USER_KEY);
 		if(user==null) {
 			m.addAttribute("islogin", "登录");
+			m.addAttribute("url", "/user/tologin.do");
 		}else {
 			m.addAttribute("islogin", "退出登录");
+			m.addAttribute("url", "/user/loginout");
 		}
 		//参数回传
 		m.addAttribute("pageNum", pageNum);

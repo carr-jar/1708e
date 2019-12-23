@@ -5,6 +5,12 @@
 
 <script type="text/javascript" src="/bootstrap-4.4.1-dist/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
+<select id="status">
+	<option value="0" ${status==0?'selected':'' }>待审核</option>
+	<option value="1" ${status==1?'selected':'' }>审核通过</option>
+	<option value="2" ${status==2?'selected':'' }>审核被拒</option>
+</select>
+<input type="button" value="查询" onclick="getstatus()">
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -15,6 +21,7 @@
       <th scope="col">发布时间</th>
       <th scope="col">状态</th>
       <th scope="col">是否热门</th>
+      <th scope="col">投诉数</th>
       <th scope="col">操作</th>
     </tr>
   </thead>
@@ -38,9 +45,11 @@
       		</c:choose>
       </td>
       <td>${l.hot==1?"热门":"非热门" }</td>
-      <td width="200px">
+      <td>${l.complainCnt }</td>
+      <td width="300px">
       		<input type="button" value="删除" class="btn btn-danger" onclick="del(${l.id})">
       		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#articleContent" onclick="check(${l.id})">审核</button>
+      		<button type="button" class="btn btn-success" data-toggle="modal" data-target="#complainModal" onclick="complainList(${l.id})">管理投诉</button>
       </td>
     </tr>
     </c:forEach>
@@ -57,7 +66,27 @@
 			    </li>
 	 		 </ul>
 		</nav>
-		
+<!-- 查看投诉 -->	
+<div class="modal fade" id="complainModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="complainListDiv">
+      	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" onclick="setStatus(1)">审核通过</button>
+        <button type="button" class="btn btn-primary" onclick="setStatus(2)">审核拒绝</button>
+      </div>
+    </div>
+  </div>
+</div>		
 <!-- 审核文章 -->	
 <div class="modal fade" id="articleContent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
@@ -84,6 +113,7 @@
   </div>
 </div>
 <script>
+	
 	$('#articleContent').on('hidden.bs.modal',function (e) {
 	  // do something...
 		$("#work").load("/admin/article?pageNum="+'${p.pageNum}');
@@ -91,7 +121,10 @@
 	var global_article_id;
 
 	function gopage(page){
-		$("#work").load("/admin/article?pageNum="+page);
+		$("#work").load("/admin/article?pageNum="+page+"&status="+${status});
+	}
+	function getstatus(){
+		$("#work").load("/admin/article?status="+$("#status").val());
 	}
 	function del(id){
 		if(confirm("确认删除?")){
@@ -105,6 +138,12 @@
 			},"json")
 		}
 	}
+	function complainList(id){
+		$("#complainModal").modal('show')
+		$("#complainListDiv").load("/comment/complains?articleId="+id);
+		
+	}
+	
 	function check(id){
 		$.post("/admin/getDetail",{id:id},function(msg){
 			//文章id保存到全局变量当中
@@ -132,6 +171,7 @@
 				//隐藏模态框
 				$('#articleContent').modal("hide"); 
 				//刷新页面
+				refreshPage();
 				return;
 			}
 			alert(msg.error)

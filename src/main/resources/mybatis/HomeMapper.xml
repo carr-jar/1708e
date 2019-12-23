@@ -39,7 +39,7 @@
 	</select>
 	
 	<select id="hostList" resultMap="aa">
-		SELECT * FROM cms_article WHERE hot=1
+		SELECT * FROM cms_article WHERE hot=1 and  deleted=0
 	</select>
 	
 	<select id="getArticles" resultMap="aa">
