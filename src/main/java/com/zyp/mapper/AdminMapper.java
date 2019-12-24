@@ -10,7 +10,7 @@ import com.zyp.bean.Article;
 
 public interface AdminMapper {
 	
-	List<Article> list(int status);
+	List<Article> list(@Param("status")int status);
 
 	Article getById(int id);
 

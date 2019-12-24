@@ -26,7 +26,7 @@ public class AdminController {
 		return "admin/index";
 	}
 	@RequestMapping("article")
-	public String article(Model m,@RequestParam(defaultValue = "0")int status,@RequestParam(defaultValue = "1")int pageNum) {
+	public String article(Model m,@RequestParam(defaultValue = "-1")int status,@RequestParam(defaultValue = "1")int pageNum) {
 		PageHelper.startPage(pageNum, 8);
 		List<Article> list=service.list(status);
 		PageInfo<Article> pageInfo = new PageInfo<Article>(list);

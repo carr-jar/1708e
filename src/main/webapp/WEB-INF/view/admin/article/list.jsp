@@ -6,6 +6,7 @@
 <script type="text/javascript" src="/bootstrap-4.4.1-dist/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/bootstrap-4.4.1-dist/js/bootstrap.js"></script>
 <select id="status">
+	<option value="-1" ${status=='-1'?'selected':'' }>请选择</option>
 	<option value="0" ${status==0?'selected':'' }>待审核</option>
 	<option value="1" ${status==1?'selected':'' }>审核通过</option>
 	<option value="2" ${status==2?'selected':'' }>审核被拒</option>
@@ -141,7 +142,7 @@
 	function complainList(id){
 		$("#complainModal").modal('show')
 		$("#complainListDiv").load("/comment/complains?articleId="+id);
-		
+		global_article_id=id;
 	}
 	
 	function check(id){
