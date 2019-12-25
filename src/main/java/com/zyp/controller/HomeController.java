@@ -67,6 +67,12 @@ public class HomeController {
 				m.addAttribute("slides", slides);
 			};
 		};
+		Thread  t5 =  new Thread() {
+			public void run() {
+				List<Article> alist = service.cntList();
+				m.addAttribute("alist", alist);
+			};
+		};
 		User user = (User) request.getSession().getAttribute(CmsContant.USER_KEY);
 		if(user==null) {
 			m.addAttribute("islogin", "登录");
@@ -82,12 +88,13 @@ public class HomeController {
 		t2.start();
 		t3.start();
 		t4.start();
+		t5.start();
 		
 		t1.join();
 		t2.join();
 		t3.join();
 		t4.join();
-		
+		t5.join();
 		return "/home/index";
 	}
 	/**
@@ -175,7 +182,9 @@ public class HomeController {
 		return "/home/channel";
 	}
 	@RequestMapping("detail")
-	public String detail(Model m,int id) {
+	public String detail(Model m,int id,HttpServletRequest request) {
+		User user =(User) request.getSession().getAttribute(CmsContant.USER_KEY);
+		m.addAttribute("user", user);
 		Article article=service.detail(id);
 		m.addAttribute("article", article);
 		return "/home/detail";

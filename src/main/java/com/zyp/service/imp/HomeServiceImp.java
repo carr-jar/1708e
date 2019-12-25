@@ -60,4 +60,10 @@ public class HomeServiceImp implements HomeService{
 		// TODO Auto-generated method stub
 		return mapper.detail(id);
 	}
+
+	@Override
+	public List<Article> cntList() {
+		// TODO Auto-generated method stub
+		return mapper.cntList();
+	}
 }

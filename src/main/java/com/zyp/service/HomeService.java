@@ -22,5 +22,7 @@ public interface HomeService {
 	List<Category> getCategoriesByChannelId(int channelId);
 
 	Article detail(int id);
+
+	List<Article> cntList();
 	
 }

@@ -195,13 +195,13 @@
 					
 			  <div class="card" style="margin-top:50px">
 					  <div class="card-header">
-					    公告
+					    投诉排序
 					  </div>
 					  <div class="card-body">
 					     <ul>
-					     	<li>1</li>
-					     	<li>2</li>
-					     	<li>3</li>
+					     	<c:forEach items="${alist}" var="last" varStatus="index">
+					     		<li class="ex"> ${index.index+1}. <a href="/home/detail?id=${last.id}" target="_blank" >${last.title}</a></li>
+					     	</c:forEach>
 					     </ul>
 					  </div>
 				</div>		

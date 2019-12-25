@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.zyp.bean.Article;
 import com.zyp.bean.Category;
 import com.zyp.bean.Channel;
+import com.zyp.bean.Compain;
 import com.zyp.mapper.ArticleMapper;
 import com.zyp.service.ArticleService;
 @Service
@@ -55,5 +56,25 @@ public class ArticleServiceImp implements ArticleService{
 	public int update(Article article) {
 		// TODO Auto-generated method stub
 		return mapper.update(article);
+	}
+
+	@Override
+	public int addcompain(Compain compain) {
+		// TODO Auto-generated method stub
+		int i = mapper.addcompain(compain);
+		mapper.increaseComplainCnt(compain.getArticle_id());
+		return 0;
+	}
+
+	@Override
+	public List<Compain> compainList(String complaintype,int cnt1,int cnt2,String order) {
+		// TODO Auto-generated method stub
+		return mapper.compainList(complaintype,cnt1,cnt2,order);
+	}
+
+	@Override
+	public Compain getcompain(int id) {
+		// TODO Auto-generated method stub
+		return mapper.getcompain(id);
 	}
 }

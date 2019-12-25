@@ -30,4 +30,6 @@ public interface HomeMapper {
 	List<Article> getArt(int channelId);
 
 	Article detail(int id);
+
+	List<Article> cntList();
 }

@@ -2,9 +2,12 @@ package com.zyp.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.zyp.bean.Article;
 import com.zyp.bean.Category;
 import com.zyp.bean.Channel;
+import com.zyp.bean.Compain;
 
 public interface ArticleService {
 
@@ -21,6 +24,12 @@ public interface ArticleService {
 	Article toUpdateArticle(int id);
 
 	int update(Article article);
+
+	int addcompain(Compain compain);
+
+	List<Compain> compainList(String complaintype, int cnt1, int cnt2, String order);
+
+	Compain getcompain(int id);
 
 	
 

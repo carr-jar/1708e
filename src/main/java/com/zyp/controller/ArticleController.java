@@ -8,11 +8,14 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,9 +26,11 @@ import com.github.pagehelper.PageInfo;
 import com.zyp.bean.Article;
 import com.zyp.bean.Category;
 import com.zyp.bean.Channel;
+import com.zyp.bean.Compain;
 import com.zyp.bean.User;
 import com.zyp.cms.utils.FileUtils;
 import com.zyp.cms.utils.HtmlUtils;
+import com.zyp.cms.utils.StringUtils;
 import com.zyp.common.CmsContant;
 import com.zyp.service.ArticleService;
 
@@ -164,5 +169,45 @@ public class ArticleController {
 		file.transferTo(new File(picRootPath+"/" + subPath + "/" + fileName));
 		return  subPath + "/" + fileName;
 	}
+	@RequestMapping("tocompain")
+	public String tocompain(int articleId,Model m,HttpServletRequest request) {
+		User user =(User) request.getSession().getAttribute(CmsContant.USER_KEY);
+		Article article = service.toUpdateArticle(articleId);
+		Compain compain = new Compain();
+		m.addAttribute("article", article);
+		m.addAttribute("compain", compain);
+		return "/home/compain";
+	}
+	@RequestMapping("compain")
+	public String compain(@Valid@ModelAttribute("compain") Compain compain,BindingResult result,HttpServletRequest request) {
+		if(!StringUtils.isHttpUrl(compain.getUrlip())) {
+			result.rejectValue("urlip", "", "格式不正确");
+		}
+		if(result.hasErrors()) {
+			return "home/compain";
+		}
+		User user =(User) request.getSession().getAttribute(CmsContant.USER_KEY);
+		compain.setUser_id(user.getId());
+		int i=service.addcompain(compain);
+		return "redirect:/home/detail?id="+compain.getArticle_id();
+	}
 	
+	@RequestMapping("compains")
+	public String compains(@RequestParam(defaultValue = "1")int pageNum,Model m,String complaintype,@RequestParam(defaultValue = "0")int cnt1,@RequestParam(defaultValue = "0")int cnt2,@RequestParam(defaultValue = "desc")String order) {
+		PageHelper.startPage(pageNum, 5);
+		List<Compain> cclist = service.compainList(complaintype,cnt1,cnt2,order);
+		PageInfo<Compain> pageInfo = new PageInfo<Compain>(cclist);
+		m.addAttribute("cclist", cclist);
+		m.addAttribute("p", pageInfo);
+		m.addAttribute("complaintype", complaintype);
+		m.addAttribute("cnt1", cnt2);
+		m.addAttribute("cnt1", cnt2);
+		return "/admin/article/compainlist";
+	}
+	@RequestMapping("compainss")
+	public String compainss(int id,Model m) {
+		Compain compain = service.getcompain(id);
+		m.addAttribute("compain", compain);
+		return "/admin/article/xqlist";
+	}
 }

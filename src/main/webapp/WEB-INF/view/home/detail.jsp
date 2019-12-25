@@ -25,8 +25,9 @@
 			分类：${article.category.name}&nbsp;&nbsp;&nbsp;
 			发表时间：<fmt:formatDate value="${article.created}" pattern="yyyy-MM-dd"/> 
 			</h5>
-			<a href="/comment/tocomplain?articleId=${article.id}">投诉</a>
-			
+			<a href="/article/tocompain?articleId=${article.id}"><input type="button" ${article.user.username!=user.username?'':'disabled'} value="投诉"></a>
+<%-- 			<a href="/comment/tocomplain?articleId=${article.id}"><input type="button" value="投诉"></a>
+ --%>			
 		</div>
 		<div style="margin-top:30px">
 			${article.content}
