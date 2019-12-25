@@ -50,7 +50,7 @@
       <td width="300px">
       		<input type="button" value="删除" class="btn btn-danger" onclick="del(${l.id})">
       		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#articleContent" onclick="check(${l.id})">审核</button>
-      		<button type="button" class="btn btn-success" data-toggle="modal" data-target="#complainModal" onclick="complainList(${l.id})">管理投诉</button>
+      		<%-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#complainModal" onclick="complainList(${l.id})">管理投诉</button> --%>
       </td>
     </tr>
     </c:forEach>
