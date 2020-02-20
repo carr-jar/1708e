@@ -191,7 +191,7 @@
 	}
 	function refreshPage(){
 		$(".modal-backdrop").remove();
-		$("#work").load("/admin/article?pageNum="+'${p.pageNum}');
+		$("#work").load("/admin/article?pageNum="+'${p.pageNum}'+"&status="+${status});
 		$("body").removeClass('modal-open');
 	}
 </script>

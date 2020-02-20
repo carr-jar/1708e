@@ -28,6 +28,8 @@
 			<a href="/article/tocompain?articleId=${article.id}"><input type="button" ${article.user.username!=user.username?'':'disabled'} value="投诉"></a>
 <%-- 			<a href="/comment/tocomplain?articleId=${article.id}"><input type="button" value="投诉"></a>
  --%>			
+ 			<h4>访问量：${article.hits }</h4>
+ 			<h4>浏览量：${article.look }</h4>
 		</div>
 		<div style="margin-top:30px">
 			${article.content}

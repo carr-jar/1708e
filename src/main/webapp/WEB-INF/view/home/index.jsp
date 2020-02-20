@@ -48,10 +48,10 @@
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <!-- <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" id="fff" placeholder="Search" >
+      <button class="btn btn-outline-success my-2 my-sm-0"  onclick="ff()">Search</button>
+    </form> -->
     <div>
     	<ul class="nav">
 		    <li class="nav-item nav-link"><img  src="/img/279885.jpg" width="30px" height="30px"></li>
@@ -153,6 +153,14 @@
     		</div>
     		<div class="col-4">
     			<div class="card">
+    				<div class="card-header">
+					    	<form class="form-inline my-2 my-lg-0" action="/home/es">
+						      <input class="form-control mr-sm-2" type="search" name="title" placeholder="Search" >
+						      <input class="btn btn-primary" value="Search" type="submit">
+						    </form>
+					 </div>
+    			</div>
+    			<div class="card">
 					  <div class="card-header">
 					    最新文章
 					  </div>
@@ -163,32 +171,23 @@
 					     	</c:forEach>
 					     	
 					     </ul>
-					     <div class="row" style="margin-left:50px">
-								<nav aria-label="Page navigation example" >
-										  <ul class="pagination ">
-										  
-										    <li class="page-item">
-										      <a class="page-link" href="javascript:gopage(${p1.pageNum-1})" aria-label="Previous">
-										        <span aria-hidden="true">&laquo;</span>
-										      </a>
-										    </li>
-										    
-										    <c:forEach begin="1" end="${p1.pages}" varStatus="index">
-										    	
-										    	<c:if test="${p1.pageNum==index.index}">
-										    		<li class="page-item"><a class="page-link" href="javascript:void()"><font color="red"> ${index.index} </font></a>  </li>
-										  		</c:if>
-										    </c:forEach>
-										    
-										    <li class="page-item">
-										      <a class="page-link" href="javascript:gopage(${p1.pageNum+1})" aria-label="Next">
-										        <span aria-hidden="true">&raquo;</span>
-										      </a>
-										    </li>
-										    
-										  </ul>
-										</nav>
-							</div>
+					     <div style="margin-left:200px">			
+						<div class="row" style="text-align: center;padding-top:1px;" >
+							<ul class="pagination" >
+								    <li><a href="/home/index?pageNum=${pageNum}&lastpage=${p1.prePage}">&laquo;</a></li>
+								    <c:forEach begin="${p1.pageNum-2 > 1 ? p1.pageNum-2:1}" end="${p1.pageNum+2 > p1.pages ? p1.pages:p1.pageNum+2}" varStatus="index">    		
+								    	<c:if test="${p1.pageNum!=index.index}">
+								    		<li><a href="/home/index?pageNum=${pageNum}&lastpage=${index.index}">${index.index}</a></li>
+								    	</c:if>
+								    	<c:if test="${p1.pageNum==index.index}">
+								    		<li><a href="/home/index?pageNum=${pageNum}"><strong> ${index.index} </strong> </a></li>
+								    	</c:if>
+								    	
+								    </c:forEach>
+								    <li><a href="/home/index?pageNum=${pageNum}&lastpage=${p1.nextPage}">&raquo;</a></li>
+								</ul>
+						</div>
+					</div>
 					  </div>
 				</div>	
 				
