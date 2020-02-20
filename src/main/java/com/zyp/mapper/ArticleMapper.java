@@ -46,6 +46,9 @@ public interface ArticleMapper {
 	List<Compain> compainList(@Param("complaintype")String complaintype,@Param("cnt1") int cnt1, @Param("cnt2")int cnt2, @Param("order")String order);
 
 	Compain getcompain(int id);
+
+	@Update("update cms_article set look=look+1 where id=#{value}")
+	void addlook(String value);
 	 
 	
 }

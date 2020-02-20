@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.zyp.bean.Article;
 import com.zyp.bean.Category;
@@ -32,4 +33,8 @@ public interface HomeMapper {
 	Article detail(int id);
 
 	List<Article> cntList();
+
+	@Update("update cms_article set hits=hits+1 where id=#{id}")
+	void addHit(int id);
+
 }

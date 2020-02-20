@@ -42,6 +42,10 @@
 		SELECT * FROM cms_article WHERE hot=1 and  deleted=0
 	</select>
 	
+	<select id="cntList" resultMap="aa">
+		SELECT * FROM cms_article WHERE  deleted=0 order by complainCnt desc LIMIT 10
+	</select>
+	
 	<select id="getArticles" resultMap="aa">
 		select * from cms_article where channel_id=#{channelId} and category_id=#{catId}
 	</select>

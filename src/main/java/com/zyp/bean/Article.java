@@ -2,9 +2,17 @@ package com.zyp.bean;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+@Document(indexName = "article" ,type = "article")
 public class Article {
+	@Id
 	private Integer id         ;
+	@Field(analyzer = "ik_smart",index = true,store = true,searchAnalyzer = "ik_smart",type = FieldType.text)
 	private String title      ;
+	@Field(analyzer = "ik_smart",index = true,store = true,searchAnalyzer = "ik_smart",type = FieldType.text)
 	private String content    ;
 	private String picture    ;
 	private int channel_id ;
@@ -23,13 +31,15 @@ public class Article {
 	private Category  category     ; //分类
 	private User user ;
 	private int complainCnt;// 投诉的数量
+	private int look;//访问量
 	public Article() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+		
 	public Article(Integer id, String title, String content, String picture, int channel_id, int category_id,
 			int user_id, int hits, int hot, int status, int deleted, Date created, Date updated, int commentCnt,
-			int articleType, Channel channel, Category category, User user) {
+			int articleType, Channel channel, Category category, User user, int complainCnt, int look) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -49,8 +59,16 @@ public class Article {
 		this.channel = channel;
 		this.category = category;
 		this.user = user;
+		this.complainCnt = complainCnt;
+		this.look = look;
 	}
-	
+
+	public int getLook() {
+		return look;
+	}
+	public void setLook(int look) {
+		this.look = look;
+	}
 	public int getComplainCnt() {
 		return complainCnt;
 	}
@@ -171,7 +189,9 @@ public class Article {
 				+ ", channel_id=" + channel_id + ", category_id=" + category_id + ", user_id=" + user_id + ", hits="
 				+ hits + ", hot=" + hot + ", status=" + status + ", deleted=" + deleted + ", created=" + created
 				+ ", updated=" + updated + ", commentCnt=" + commentCnt + ", articleType=" + articleType + ", channel="
-				+ channel + ", category=" + category + ", user=" + user + "]";
+				+ channel + ", category=" + category + ", user=" + user + ", complainCnt=" + complainCnt + ", look="
+				+ look + "]";
 	}
+	
 	
 }

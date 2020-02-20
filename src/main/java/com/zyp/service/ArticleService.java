@@ -31,6 +31,8 @@ public interface ArticleService {
 
 	Compain getcompain(int id);
 
+	void addlook(String value);
+
 	
 
 }

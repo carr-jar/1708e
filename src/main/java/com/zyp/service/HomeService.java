@@ -24,5 +24,9 @@ public interface HomeService {
 	Article detail(int id);
 
 	List<Article> cntList();
-	
+
+	List<Article> findByEs(String title);
+
+	void addHit(int id);
+
 }

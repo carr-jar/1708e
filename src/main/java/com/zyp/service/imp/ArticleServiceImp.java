@@ -43,6 +43,8 @@ public class ArticleServiceImp implements ArticleService{
 	@Override
 	public int add(Article article) {
 		// TODO Auto-generated method stub
+		String title = article.getTitle();
+		System.out.println(title+"已导入完毕");
 		return mapper.add(article);
 	}
 
@@ -76,5 +78,11 @@ public class ArticleServiceImp implements ArticleService{
 	public Compain getcompain(int id) {
 		// TODO Auto-generated method stub
 		return mapper.getcompain(id);
+	}
+
+	@Override
+	public void addlook(String value) {
+		// TODO Auto-generated method stub
+		mapper.addlook(value);
 	}
 }

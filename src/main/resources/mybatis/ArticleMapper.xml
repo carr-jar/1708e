@@ -31,4 +31,32 @@
 	<select id="toUpdateArticle" resultMap="aa">
 		SELECT * FROM cms_article WHERE id=#{value} AND deleted=0
 	</select>
+	<resultMap type="com.zyp.bean.Compain" id="cc">
+		<association property="user" javaType="com.zyp.bean.User" select="findUser" column="user_id">
+			
+		</association>
+	</resultMap>
+	<select id="findUser" resultType="com.zyp.bean.User">
+		select * from cms_user where id=#{id}
+	</select>
+	<select id="compainList" resultMap="cc">
+			SELECT c.*,a.content content,a.complainCnt complainCnt,a.title title 
+			FROM cms_complain c,cms_article a WHERE c.article_id=a.id
+			<if test="complaintype!=null and complaintype!=''">
+				and complaintype=#{complaintype}
+			</if>
+			<if test="cnt1!=0">
+				and complainCnt>#{cnt1}
+			</if>
+			<if test="cnt2!=0">
+				and complainCnt &lt; #{cnt2} 
+			</if>
+			ORDER BY complainCnt desc
+	</select>
+	
+	<select id="getcompain" resultMap="cc">
+		SELECT c.*,a.content content,a.complainCnt complainCnt,a.title title,u.username username
+		FROM cms_complain c,cms_article a,cms_user u WHERE c.article_id=a.id AND c.user_id=u.id
+		AND c.id=#{id}
+	</select>
 </mapper>

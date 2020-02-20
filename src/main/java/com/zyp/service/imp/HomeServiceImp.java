@@ -9,12 +9,15 @@ import com.zyp.bean.Article;
 import com.zyp.bean.Category;
 import com.zyp.bean.Channel;
 import com.zyp.bean.Slide;
+import com.zyp.mapper.ArticleRep;
 import com.zyp.mapper.HomeMapper;
 import com.zyp.service.HomeService;
 @Service
 public class HomeServiceImp implements HomeService{
 	@Autowired
 	private HomeMapper mapper;
+	@Autowired
+	ArticleRep articleRep;
 
 	@Override
 	public List<Channel> getChannels() {
@@ -65,5 +68,17 @@ public class HomeServiceImp implements HomeService{
 	public List<Article> cntList() {
 		// TODO Auto-generated method stub
 		return mapper.cntList();
+	}
+
+	@Override
+	public List<Article> findByEs(String title) {
+		// TODO Auto-generated method stub
+		return articleRep.findByTitle(title);
+	}
+
+	@Override
+	public void addHit(int id) {
+		// TODO Auto-generated method stub
+		mapper.addHit(id);
 	}
 }

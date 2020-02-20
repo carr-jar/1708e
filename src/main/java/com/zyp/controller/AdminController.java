@@ -3,17 +3,20 @@ package com.zyp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zyp.bean.Article;
 import com.zyp.common.CmsError;
 import com.zyp.common.CmsMessage;
+import com.zyp.mapper.ArticleRep;
 import com.zyp.service.AdminService;
 
 @RequestMapping("admin")
@@ -21,6 +24,10 @@ import com.zyp.service.AdminService;
 public class AdminController {
 	@Autowired
 	private AdminService service;
+	@Autowired
+	KafkaTemplate kafkaTemplate;
+	@Autowired
+	ArticleRep articleRep;
 	@RequestMapping("index.do")
 	public String index() {
 		return "admin/index";
@@ -70,6 +77,17 @@ public class AdminController {
 		int result=service.setCheckStatus(id,status);
 		if(result<1) {
 			return new CmsMessage(CmsError.FAILED_UPDATE_DB, "设置失败", null);
+		}
+		if(result==1) {
+			String jsonString = JSON.toJSONString(article);
+			if(status==2) {
+				kafkaTemplate.send("test2", "del*"+jsonString);
+				articleRep.delete(article);
+			}
+			if(status==1) {
+				articleRep.save(article);
+				kafkaTemplate.send("test2", "save*"+jsonString);
+			}
 		}
 		return new CmsMessage(CmsError.SUCCESS, "成功", null);
 	}
